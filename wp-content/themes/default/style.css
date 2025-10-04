@@ -1,0 +1,90 @@
+/*
+Theme Name: Claro
+Theme URI: http://wordpress.org/
+Description: The default WordPress theme that graced version 1.5 to version 2.9, based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.
+Version: 1.7.2
+Author: Michael Heilemann
+Author URI: http://binarybonsai.com/
+Tags: blue, silver, white, two-columns, fixed-width, right-sidebar, fixed-width, custom-header, threaded-comments, sticky-post, rtl-language-support, translation-ready
+Text Domain: kubrick
+
+	Kubrick v1.5
+	 http://binarybonsai.com/kubrick/
+
+	This theme was designed and built by Michael Heilemann,
+	whose blog you will find at http://binarybonsai.com/
+
+	The CSS, XHTML and design is released under GPL:
+	http://www.opensource.org/licenses/gpl-license.php
+
+*/
+ 
+.tableone {
+border-collapse: collapse;
+border: 1px solid #000;
+}
+
+.tableone td {
+border: none;
+}
+
+.tableone th {
+border-top: 1px solid #000;
+border-bottom: 1px solid #000;
+border-left: none;
+border-right: none;
+}
+
+.tableone tr:first-child td {
+border-bottom: 1px solid #000;
+}
+
+.tableone tr:nth-child(odd) {background-color: #ffffff;}
+.tableone tr:nth-child(even) {background-color: #f5f5f5;}
+
+.tableone th {
+background-color: #4472C4;
+}
+
+.tableheader {
+    padding: 4px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: darkred;
+}
+
+.news-header {
+    border: 1px solid #000;
+}
+
+.news-content {
+    border: 1px solid #000;
+    border-top: none;
+}
+
+.news-header td {
+    border: none;
+}
+
+.news-content td {
+    border: none;
+}
+
+.news-content td:first-child {
+    border-right: 1px solid #000;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

@@ -1,0 +1,187 @@
+/* EchoRing Sites Admin Styles */
+
+.screenshot-item,
+.review-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.screenshot-item img {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.screenshot-item input,
+.review-item textarea {
+    margin-bottom: 5px;
+}
+
+.remove-screenshot,
+.remove-review-item {
+    margin-left: 10px !important;
+    background: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: white !important;
+}
+
+.remove-screenshot:hover,
+.remove-review-item:hover {
+    background: #c92626 !important;
+    border-color: #c92626 !important;
+}
+
+#add_screenshot,
+#add_good_item,
+#add_bad_item {
+    margin-top: 10px;
+}
+
+#screenshots_container {
+    margin-bottom: 10px;
+}
+
+.screenshot-item {
+    position: relative;
+}
+
+.screenshot-item:hover {
+    border-color: #0073aa;
+}
+
+/* Settings page styles */
+.form-table textarea {
+    font-family: monospace;
+}
+
+.form-table th {
+    width: 200px;
+}
+
+/* Meta box organization */
+#site_details {
+    border-left: 4px solid #0073aa;
+}
+
+#site_ratings {
+    border-left: 4px solid #46b450;
+}
+
+#site_reviews {
+    border-left: 4px solid #ffb900;
+}
+
+/* Update management styles */
+.sites .updated {
+    background-color: #d4edda !important;
+}
+
+.sites .needs-update {
+    background-color: #f8d7da !important;
+}
+
+.sites .new-site {
+    background-color: #cce5ff !important;
+}
+
+.sites .updated {
+    background-color: #d4edda;
+}
+
+.sites .updated td:nth-child(5) {
+    color: #155724;
+    font-weight: bold;
+}
+
+.sites .needs-update {
+    background-color: #f8d7da;
+}
+
+.sites .needs-update td:nth-child(5) {
+    color: #721c24;
+    font-weight: bold;
+}
+
+.sites .new-site {
+    background-color: #e3f2fd;
+}
+
+.sites .new-site td:nth-child(5) {
+    color: #004085;
+    font-weight: bold;
+}
+
+.new-badge {
+    background-color: #0073aa;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.mark-updated,
+.mark-updated-now {
+    background-color: #0073aa !important;
+    border-color: #0073aa !important;
+    color: white !important;
+}
+
+.reset-updates,
+.reset-updates-now {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+}
+
+/* Update status meta box styles */
+#site_update_status .updated {
+    color: #155724;
+    font-weight: bold;
+}
+
+#site_update_status .needs-update {
+    color: #721c24;
+    font-weight: bold;
+}
+
+/* Compact button styles */
+.compact-actions {
+    white-space: nowrap;
+    display: inline-block;
+}
+.compact-actions .compact-btn {
+    padding: 0 6px !important;
+    min-height: 24px !important;
+    line-height: 22px !important;
+    font-size: 12px !important;
+    margin-right: 2px !important;
+    display: inline-block;
+    width: auto !important;
+}
+.compact-actions .compact-btn:last-child {
+    margin-right: 0 !important;
+}
+.wp-list-table .column-actions {
+    width: 120px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .screenshot-item,
+    .review-item {
+        padding: 5px;
+    }
+    
+    .remove-screenshot,
+    .remove-review-item {
+        margin-left: 5px !important;
+        padding: 2px 8px !important;
+    }
+}
