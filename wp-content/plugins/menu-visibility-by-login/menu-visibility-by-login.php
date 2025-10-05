@@ -128,8 +128,8 @@ class Menu_Visibility_By_Login {
      * Filter menu items based on login status
      */
     public function filter_menu_items($items, $menu, $args) {
-        // Don't filter in admin area when managing menus
-        if (is_admin() && (isset($_GET['page']) && $_GET['page'] === 'nav-menus')) {
+        // Only filter on frontend, not in admin
+        if (is_admin()) {
             return $items;
         }
 
