@@ -15,82 +15,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Menu_Visibility_By_Login {
-    
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        // Add custom fields to menu items
-        add_filter('wp_setup_nav_menu_item', array($this, 'add_custom_nav_fields'));
-        
-        // Save menu custom fields
-        add_action('wp_update_nav_menu_item', array($this, 'update_custom_nav_fields'), 10, 3);
-        
-        // Edit menu walker
-        add_filter('wp_edit_nav_menu_walker', array($this, 'edit_walker'), 10, 2);
-        
-        // Filter menu items on display
-        add_filter('wp_get_nav_menu_items', array($this, 'filter_menu_items'), 10, 3);
-    }
-    
-    /**
-     * Add custom fields to menu items
-     */
-    public function add_custom_nav_fields($menu_item) {
-        $menu_item->visibility_mode = get_post_meta($menu_item->ID, '_menu_item_visibility_mode', true);
-        return $menu_item;
-    }
-    
-    /**
-     * Save custom field value
-     */
-    public function update_custom_nav_fields($menu_id, $menu_item_db_id, $args) {
-        if (isset($_POST['menu-item-visibility-mode'][$menu_item_db_id])) {
-            $visibility_value = sanitize_text_field($_POST['menu-item-visibility-mode'][$menu_item_db_id]);
-            update_post_meta($menu_item_db_id, '_menu_item_visibility_mode', $visibility_value);
-        } else {
-            delete_post_meta($menu_item_db_id, '_menu_item_visibility_mode');
-        }
-    }
-    
-    /**
-     * Define new menu walker
-     */
-    public function edit_walker($walker, $menu_id) {
-        return 'Menu_Visibility_Walker_Edit';
-    }
-    
-    /**
-     * Filter menu items based on login status
-     */
-    public function filter_menu_items($items, $menu, $args) {
-        $logged_in = is_user_logged_in();
-        
-        foreach ($items as $key => $item) {
-            $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
-            
-            // If visibility mode is set
-            if (!empty($visibility_mode)) {
-                // Hide if user is logged in and mode is 'logged_out'
-                if ($logged_in && $visibility_mode === 'logged_out') {
-                    unset($items[$key]);
-                }
-                // Hide if user is logged out and mode is 'logged_in'
-                elseif (!$logged_in && $visibility_mode === 'logged_in') {
-                    unset($items[$key]);
-                }
-            }
-        }
-        
-        return $items;
-    }
-}
-
 /**
  * Load custom walker only when needed
  */
 function menu_visibility_load_walker() {
+    if (class_exists('Menu_Visibility_Walker_Edit')) {
+        return; // Already loaded
+    }
+    
     if (!class_exists('Walker_Nav_Menu_Edit')) {
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
     }
@@ -130,8 +62,88 @@ function menu_visibility_load_walker() {
     }
 }
 
-// Load walker on admin init
-add_action('admin_init', 'menu_visibility_load_walker');
+// Load walker early in admin
+if (is_admin()) {
+    add_action('admin_init', 'menu_visibility_load_walker');
+}
+
+class Menu_Visibility_By_Login {
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        // Add custom fields to menu items
+        add_filter('wp_setup_nav_menu_item', array($this, 'add_custom_nav_fields'));
+        
+        // Save menu custom fields
+        add_action('wp_update_nav_menu_item', array($this, 'update_custom_nav_fields'), 10, 3);
+        
+        // Edit menu walker - only in admin
+        if (is_admin()) {
+            add_filter('wp_edit_nav_menu_walker', array($this, 'edit_walker'), 10, 2);
+        }
+        
+        // Filter menu items on display
+        add_filter('wp_get_nav_menu_items', array($this, 'filter_menu_items'), 10, 3);
+    }
+    
+    /**
+     * Add custom fields to menu items
+     */
+    public function add_custom_nav_fields($menu_item) {
+        $menu_item->visibility_mode = get_post_meta($menu_item->ID, '_menu_item_visibility_mode', true);
+        return $menu_item;
+    }
+    
+    /**
+     * Save custom field value
+     */
+    public function update_custom_nav_fields($menu_id, $menu_item_db_id, $args) {
+        if (isset($_POST['menu-item-visibility-mode'][$menu_item_db_id])) {
+            $visibility_value = sanitize_text_field($_POST['menu-item-visibility-mode'][$menu_item_db_id]);
+            update_post_meta($menu_item_db_id, '_menu_item_visibility_mode', $visibility_value);
+        } else {
+            delete_post_meta($menu_item_db_id, '_menu_item_visibility_mode');
+        }
+    }
+    
+    /**
+     * Define new menu walker
+     */
+    public function edit_walker($walker, $menu_id) {
+        // Ensure walker class is loaded
+        if (!class_exists('Menu_Visibility_Walker_Edit')) {
+            menu_visibility_load_walker();
+        }
+        return 'Menu_Visibility_Walker_Edit';
+    }
+    
+    /**
+     * Filter menu items based on login status
+     */
+    public function filter_menu_items($items, $menu, $args) {
+        $logged_in = is_user_logged_in();
+        
+        foreach ($items as $key => $item) {
+            $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
+            
+            // If visibility mode is set
+            if (!empty($visibility_mode)) {
+                // Hide if user is logged in and mode is 'logged_out'
+                if ($logged_in && $visibility_mode === 'logged_out') {
+                    unset($items[$key]);
+                }
+                // Hide if user is logged out and mode is 'logged_in'
+                elseif (!$logged_in && $visibility_mode === 'logged_in') {
+                    unset($items[$key]);
+                }
+            }
+        }
+        
+        return $items;
+    }
+}
 
 // Initialize the plugin
 new Menu_Visibility_By_Login();
