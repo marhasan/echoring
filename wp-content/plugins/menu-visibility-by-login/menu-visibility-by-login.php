@@ -22,25 +22,29 @@ function menu_visibility_load_walker() {
     if (class_exists('Menu_Visibility_Walker_Edit')) {
         return; // Already loaded
     }
-    
+
     if (!class_exists('Walker_Nav_Menu_Edit')) {
-        require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
+        // Check if we're on the nav-menus page first
+        global $pagenow;
+        if ($pagenow === 'nav-menus.php' || (isset($_GET['page']) && $_GET['page'] === 'nav-menus')) {
+            require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
+        }
     }
-    
+
     /**
      * Custom walker for menu editor
      */
     class Menu_Visibility_Walker_Edit extends Walker_Nav_Menu_Edit {
-        
+
         /**
          * Start the element output
          */
         public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
             $item_output = '';
             parent::start_el($item_output, $item, $depth, $args, $id);
-            
+
             $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
-            
+
             // Add custom field to menu item settings
             $custom_fields = '
             <p class="field-visibility-mode description description-wide">
@@ -53,18 +57,13 @@ function menu_visibility_load_walker() {
                     </select>
                 </label>
             </p>';
-            
+
             // Insert custom field before the "move" links
             $item_output = preg_replace('/(?=<div class="menu-item-actions)/', $custom_fields, $item_output);
-            
+
             $output .= $item_output;
         }
     }
-}
-
-// Load walker early in admin
-if (is_admin()) {
-    add_action('admin_init', 'menu_visibility_load_walker');
 }
 
 class Menu_Visibility_By_Login {
@@ -75,15 +74,13 @@ class Menu_Visibility_By_Login {
     public function __construct() {
         // Add custom fields to menu items
         add_filter('wp_setup_nav_menu_item', array($this, 'add_custom_nav_fields'));
-        
+
         // Save menu custom fields
         add_action('wp_update_nav_menu_item', array($this, 'update_custom_nav_fields'), 10, 3);
-        
-        // Edit menu walker - only in admin
-        if (is_admin()) {
-            add_filter('wp_edit_nav_menu_walker', array($this, 'edit_walker'), 10, 2);
-        }
-        
+
+        // Add custom fields to menu item form
+        add_action('wp_nav_menu_item_custom_fields', array($this, 'add_custom_fields_to_menu_item'), 10, 4);
+
         // Filter menu items on display
         add_filter('wp_get_nav_menu_items', array($this, 'filter_menu_items'), 10, 3);
     }
@@ -107,16 +104,24 @@ class Menu_Visibility_By_Login {
             delete_post_meta($menu_item_db_id, '_menu_item_visibility_mode');
         }
     }
-    
+
     /**
-     * Define new menu walker
+     * Add custom fields to menu item form
      */
-    public function edit_walker($walker, $menu_id) {
-        // Ensure walker class is loaded
-        if (!class_exists('Menu_Visibility_Walker_Edit')) {
-            menu_visibility_load_walker();
-        }
-        return 'Menu_Visibility_Walker_Edit';
+    public function add_custom_fields_to_menu_item($item_id, $item, $depth, $args) {
+        $visibility_mode = get_post_meta($item_id, '_menu_item_visibility_mode', true);
+        ?>
+        <p class="field-visibility-mode description description-wide">
+            <label for="edit-menu-item-visibility-mode-<?php echo $item_id; ?>">
+                <?php _e('Visibility Mode'); ?><br />
+                <select name="menu-item-visibility-mode[<?php echo $item_id; ?>]" id="edit-menu-item-visibility-mode-<?php echo $item_id; ?>" class="widefat">
+                    <option value="" <?php selected($visibility_mode, '', false); ?>>Always Show</option>
+                    <option value="logged_in" <?php selected($visibility_mode, 'logged_in', false); ?>>Show Only When Logged In</option>
+                    <option value="logged_out" <?php selected($visibility_mode, 'logged_out', false); ?>>Show Only When Logged Out</option>
+                </select>
+            </label>
+        </p>
+        <?php
     }
     
     /**
