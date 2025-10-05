@@ -15,57 +15,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Load custom walker only when needed
- */
-function menu_visibility_load_walker() {
-    if (class_exists('Menu_Visibility_Walker_Edit')) {
-        return; // Already loaded
-    }
-
-    if (!class_exists('Walker_Nav_Menu_Edit')) {
-        // Check if we're on the nav-menus page first
-        global $pagenow;
-        if ($pagenow === 'nav-menus.php' || (isset($_GET['page']) && $_GET['page'] === 'nav-menus')) {
-            require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
-        }
-    }
-
-    /**
-     * Custom walker for menu editor
-     */
-    class Menu_Visibility_Walker_Edit extends Walker_Nav_Menu_Edit {
-
-        /**
-         * Start the element output
-         */
-        public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
-            $item_output = '';
-            parent::start_el($item_output, $item, $depth, $args, $id);
-
-            $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
-
-            // Add custom field to menu item settings
-            $custom_fields = '
-            <p class="field-visibility-mode description description-wide">
-                <label for="edit-menu-item-visibility-mode-' . $item->ID . '">
-                    Visibility Mode<br />
-                    <select name="menu-item-visibility-mode[' . $item->ID . ']" id="edit-menu-item-visibility-mode-' . $item->ID . '" class="widefat">
-                        <option value="" ' . selected($visibility_mode, '', false) . '>Always Show</option>
-                        <option value="logged_in" ' . selected($visibility_mode, 'logged_in', false) . '>Show Only When Logged In</option>
-                        <option value="logged_out" ' . selected($visibility_mode, 'logged_out', false) . '>Show Only When Logged Out</option>
-                    </select>
-                </label>
-            </p>';
-
-            // Insert custom field before the "move" links
-            $item_output = preg_replace('/(?=<div class="menu-item-actions)/', $custom_fields, $item_output);
-
-            $output .= $item_output;
-        }
-    }
-}
-
 class Menu_Visibility_By_Login {
     
     /**
@@ -79,7 +28,10 @@ class Menu_Visibility_By_Login {
         add_action('wp_update_nav_menu_item', array($this, 'update_custom_nav_fields'), 10, 3);
 
         // Add custom fields to menu item form
-        add_action('wp_nav_menu_item_custom_fields', array($this, 'add_custom_fields_to_menu_item'), 10, 4);
+        add_action('wp_nav_menu_item_custom_fields', array($this, 'add_custom_fields_to_menu_item'), 20, 4);
+
+        // Enqueue scripts for menu editor
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_menu_scripts'));
 
         // Filter menu items on display
         add_filter('wp_get_nav_menu_items', array($this, 'filter_menu_items'), 10, 3);
@@ -100,8 +52,12 @@ class Menu_Visibility_By_Login {
         if (isset($_POST['menu-item-visibility-mode'][$menu_item_db_id])) {
             $visibility_value = sanitize_text_field($_POST['menu-item-visibility-mode'][$menu_item_db_id]);
             update_post_meta($menu_item_db_id, '_menu_item_visibility_mode', $visibility_value);
+
+            // Clear post cache to ensure fresh data on next load
+            clean_post_cache($menu_item_db_id);
         } else {
             delete_post_meta($menu_item_db_id, '_menu_item_visibility_mode');
+            clean_post_cache($menu_item_db_id);
         }
     }
 
@@ -111,6 +67,11 @@ class Menu_Visibility_By_Login {
     public function add_custom_fields_to_menu_item($item_id, $item, $depth, $args) {
         // Get the value directly from post meta to ensure we have the latest saved value
         $visibility_mode = get_post_meta($item_id, '_menu_item_visibility_mode', true);
+
+        // Debug: Check if value is being retrieved
+        if (empty($visibility_mode)) {
+            $visibility_mode = '';
+        }
 
         ?>
         <p class="field-visibility-mode description description-wide">
@@ -124,6 +85,33 @@ class Menu_Visibility_By_Login {
             </label>
         </p>
         <?php
+    }
+
+    /**
+     * Enqueue scripts for menu editor
+     */
+    public function enqueue_menu_scripts($hook) {
+        if ($hook !== 'nav-menus.php') {
+            return;
+        }
+
+        wp_add_inline_script('nav-menu', "
+        (function($) {
+            $(document).on('menu-item-added', function() {
+                // Refresh custom field values after menu item is added
+                setTimeout(function() {
+                    $('.field-visibility-mode select').each(function() {
+                        var \$select = $(this);
+                        var item_id = \$select.attr('id').replace('edit-menu-item-visibility-mode-', '');
+                        if (item_id) {
+                            // Trigger change to refresh the selected option
+                            \$select.trigger('change');
+                        }
+                    });
+                }, 100);
+            });
+        })(jQuery);
+        ");
     }
     
     /**
