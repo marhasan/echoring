@@ -30,13 +30,31 @@ class Menu_Visibility_By_Login {
         // Add custom fields to menu item form
         add_action('wp_nav_menu_item_custom_fields', array($this, 'add_custom_fields_to_menu_item'), 20, 4);
 
-        // Enqueue scripts for menu editor
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_menu_scripts'));
+        add_filter('wp_get_nav_menu_items', array($this, 'ensure_custom_fields_loaded'), 5, 3);
 
         // Filter menu items on display
         add_filter('wp_get_nav_menu_items', array($this, 'filter_menu_items'), 10, 3);
     }
-    
+    }
+
+    /**
+     * Ensure custom fields are loaded for menu items (for AJAX contexts)
+     */
+    public function ensure_custom_fields_loaded($items, $menu, $args) {
+        // Only apply in admin when dealing with menu management
+        if (!is_admin() || (isset($_GET['page']) && $_GET['page'] !== 'nav-menus')) {
+            return $items;
+        }
+
+        foreach ($items as $item) {
+            if (!isset($item->visibility_mode)) {
+                $item->visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
+            }
+        }
+
+        return $items;
+    }
+
     /**
      * Add custom fields to menu items
      */
@@ -44,7 +62,7 @@ class Menu_Visibility_By_Login {
         $menu_item->visibility_mode = get_post_meta($menu_item->ID, '_menu_item_visibility_mode', true);
         return $menu_item;
     }
-    
+
     /**
      * Save custom field value
      */
@@ -65,22 +83,25 @@ class Menu_Visibility_By_Login {
      * Add custom fields to menu item form
      */
     public function add_custom_fields_to_menu_item($item_id, $item, $depth, $args) {
-        // Get the value directly from post meta to ensure we have the latest saved value
-        $visibility_mode = get_post_meta($item_id, '_menu_item_visibility_mode', true);
+        // Use the item object that WordPress has already processed with our custom field
+        $visibility_mode = isset($item->visibility_mode) ? $item->visibility_mode : '';
 
-        // Debug: Check if value is being retrieved
+        // Fallback to post meta if the item object doesn't have our custom field
         if (empty($visibility_mode)) {
-            $visibility_mode = '';
+            $visibility_mode = get_post_meta($item_id, '_menu_item_visibility_mode', true);
         }
+
+        // Ensure we have a valid value for the selected() function
+        $visibility_mode = !empty($visibility_mode) ? $visibility_mode : '';
 
         ?>
         <p class="field-visibility-mode description description-wide">
             <label for="edit-menu-item-visibility-mode-<?php echo $item_id; ?>">
                 <?php _e('Visibility Mode'); ?><br />
                 <select name="menu-item-visibility-mode[<?php echo $item_id; ?>]" id="edit-menu-item-visibility-mode-<?php echo $item_id; ?>" class="widefat">
-                    <option value="" <?php selected($visibility_mode, '', false); ?>>Always Show</option>
-                    <option value="logged_in" <?php selected($visibility_mode, 'logged_in', false); ?>>Show Only When Logged In</option>
-                    <option value="logged_out" <?php selected($visibility_mode, 'logged_out', false); ?>>Show Only When Logged Out</option>
+                    <option value="" <?php selected($visibility_mode, ''); ?>>Always Show</option>
+                    <option value="logged_in" <?php selected($visibility_mode, 'logged_in'); ?>>Show Only When Logged In</option>
+                    <option value="logged_out" <?php selected($visibility_mode, 'logged_out'); ?>>Show Only When Logged Out</option>
                 </select>
             </label>
         </p>
