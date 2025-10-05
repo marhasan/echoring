@@ -73,7 +73,7 @@ class Menu_Visibility_By_Login {
      */
     public function __construct() {
         // Add custom fields to menu items
-        add_filter('wp_setup_nav_menu_item', array($this, 'add_custom_nav_fields'));
+        add_filter('wp_setup_nav_menu_item', array($this, 'add_custom_nav_fields'), 10, 1);
 
         // Save menu custom fields
         add_action('wp_update_nav_menu_item', array($this, 'update_custom_nav_fields'), 10, 3);
@@ -109,7 +109,9 @@ class Menu_Visibility_By_Login {
      * Add custom fields to menu item form
      */
     public function add_custom_fields_to_menu_item($item_id, $item, $depth, $args) {
+        // Get the value directly from post meta to ensure we have the latest saved value
         $visibility_mode = get_post_meta($item_id, '_menu_item_visibility_mode', true);
+
         ?>
         <p class="field-visibility-mode description description-wide">
             <label for="edit-menu-item-visibility-mode-<?php echo $item_id; ?>">
