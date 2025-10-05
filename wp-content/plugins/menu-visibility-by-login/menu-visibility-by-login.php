@@ -35,7 +35,6 @@ class Menu_Visibility_By_Login {
         // Filter menu items on display
         add_filter('wp_get_nav_menu_items', array($this, 'filter_menu_items'), 10, 3);
     }
-    }
 
     /**
      * Ensure custom fields are loaded for menu items (for AJAX contexts)
