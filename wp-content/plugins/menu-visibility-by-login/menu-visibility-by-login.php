@@ -128,11 +128,16 @@ class Menu_Visibility_By_Login {
      * Filter menu items based on login status
      */
     public function filter_menu_items($items, $menu, $args) {
+        // Don't filter in admin area when managing menus
+        if (is_admin() && (isset($_GET['page']) && $_GET['page'] === 'nav-menus')) {
+            return $items;
+        }
+
         $logged_in = is_user_logged_in();
-        
+
         foreach ($items as $key => $item) {
             $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
-            
+
             // If visibility mode is set
             if (!empty($visibility_mode)) {
                 // Hide if user is logged in and mode is 'logged_out'
@@ -145,7 +150,7 @@ class Menu_Visibility_By_Login {
                 }
             }
         }
-        
+
         return $items;
     }
 }
