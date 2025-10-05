@@ -88,38 +88,50 @@ class Menu_Visibility_By_Login {
 }
 
 /**
- * Custom walker for menu editor
+ * Load custom walker only when needed
  */
-class Menu_Visibility_Walker_Edit extends Walker_Nav_Menu_Edit {
+function menu_visibility_load_walker() {
+    if (!class_exists('Walker_Nav_Menu_Edit')) {
+        require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
+    }
     
     /**
-     * Start the element output
+     * Custom walker for menu editor
      */
-    public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
-        $item_output = '';
-        parent::start_el($item_output, $item, $depth, $args, $id);
+    class Menu_Visibility_Walker_Edit extends Walker_Nav_Menu_Edit {
         
-        $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
-        
-        // Add custom field to menu item settings
-        $custom_fields = '
-        <p class="field-visibility-mode description description-wide">
-            <label for="edit-menu-item-visibility-mode-' . $item->ID . '">
-                Visibility Mode<br />
-                <select name="menu-item-visibility-mode[' . $item->ID . ']" id="edit-menu-item-visibility-mode-' . $item->ID . '" class="widefat">
-                    <option value="" ' . selected($visibility_mode, '', false) . '>Always Show</option>
-                    <option value="logged_in" ' . selected($visibility_mode, 'logged_in', false) . '>Show Only When Logged In</option>
-                    <option value="logged_out" ' . selected($visibility_mode, 'logged_out', false) . '>Show Only When Logged Out</option>
-                </select>
-            </label>
-        </p>';
-        
-        // Insert custom field before the "move" links
-        $item_output = preg_replace('/(?=<div class="menu-item-actions)/', $custom_fields, $item_output);
-        
-        $output .= $item_output;
+        /**
+         * Start the element output
+         */
+        public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
+            $item_output = '';
+            parent::start_el($item_output, $item, $depth, $args, $id);
+            
+            $visibility_mode = get_post_meta($item->ID, '_menu_item_visibility_mode', true);
+            
+            // Add custom field to menu item settings
+            $custom_fields = '
+            <p class="field-visibility-mode description description-wide">
+                <label for="edit-menu-item-visibility-mode-' . $item->ID . '">
+                    Visibility Mode<br />
+                    <select name="menu-item-visibility-mode[' . $item->ID . ']" id="edit-menu-item-visibility-mode-' . $item->ID . '" class="widefat">
+                        <option value="" ' . selected($visibility_mode, '', false) . '>Always Show</option>
+                        <option value="logged_in" ' . selected($visibility_mode, 'logged_in', false) . '>Show Only When Logged In</option>
+                        <option value="logged_out" ' . selected($visibility_mode, 'logged_out', false) . '>Show Only When Logged Out</option>
+                    </select>
+                </label>
+            </p>';
+            
+            // Insert custom field before the "move" links
+            $item_output = preg_replace('/(?=<div class="menu-item-actions)/', $custom_fields, $item_output);
+            
+            $output .= $item_output;
+        }
     }
 }
+
+// Load walker on admin init
+add_action('admin_init', 'menu_visibility_load_walker');
 
 // Initialize the plugin
 new Menu_Visibility_By_Login();
