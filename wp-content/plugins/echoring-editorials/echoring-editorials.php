@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name: EchoRing Editorials
+ * Plugin URI: https://echoring.martinhasan.com
  * Description: Custom post type and templates for managing editorial interviews
  * Version: 1.0.0
  * Author: EchoRing

@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Menu Visibility by Login Status
- * Plugin URI: https://echoring.com
+ * Plugin URI: https://echoring.martinhasan.com
  * Description: Adds a toggle to menu items to control visibility based on user login status
  * Version: 1.0.0
  * Author: EchoRing
- * Author URI: https://echoring.com
+ * Author URI: https://echoring.martinhasan.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
