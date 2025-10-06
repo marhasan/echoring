@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: EchoRing Sites
- * Plugin URI: https://echoring.com
+ * Plugin URI: https://echoring.martinhasan.com
  * Description: Custom post type for managing website reviews and details
  * Version: 1.1.0
  * Author: EchoRing
