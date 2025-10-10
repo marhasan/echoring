@@ -159,7 +159,7 @@ source.style.backgroundColor=originalcolor
 										<tr><td><font face="verdana" size="1"><b>Password:</b></font></td><td>
 											<input type="password" name="pwd" size="15" tabindex="2" style="font-family: Verdana; font-size: 8pt; border-style: solid; border-width: 1; padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1"></td></tr>
 												<tr><td></td><td><input type="image" src="<?php echo get_template_directory_uri(); ?>/images/login.gif" alt="Log In">
-													<a href="/signup-site/"><img src="<?php echo get_template_directory_uri(); ?>/images/register.gif" width="60" height="12" border="0"></a></td></tr>
+													<a href="<?php echo get_site_url(); ?>/signup-site/"><img src="<?php echo get_template_directory_uri(); ?>/images/register.gif" width="60" height="12" border="0"></a></td></tr>
 											</tbody>
 										</table>
 									</form>
