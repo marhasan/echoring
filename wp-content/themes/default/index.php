@@ -21,37 +21,37 @@ get_header();
 		'posts_per_page' => 1
 		) );
 		while ($query->have_posts()) : $query->the_post(); ?>
-	<table class="news-header" border="0" width="602" cellpadding="2" cellspacing="0" style="border-collapse: collapse;">
-		<tbody>
+	<table class="news-header" border="0" width="602" cellpadding="2" cellspacing="0">
+	<tbody>
 			<tr>
 				<td height="20px">
-					<font face="verdana" size="1">
-						<b>News Update:</b> <?php the_title(); ?>
-					</font>
+					<span class="font-verdana">
+					<b>News Update:</b> <?php the_title(); ?>
+					</span>
 				</td>
 				<td align="right">
-					<font face="verdana" size="1">
-						<b>Posted By:</b> <?php the_author(); ?>&nbsp;<b>Rating:</b> <?php echo display_post_rating(get_the_ID()); ?>
-					</font>
+					<span class="font-verdana">
+					<b>Posted By:</b> <?php the_author(); ?>&nbsp;<b>Rating:</b> <?php echo display_post_rating(get_the_ID()); ?>
+					</span>
 				</td>
 			</tr>
 		</tbody>
 	</table>  
-	<table class="news-content" border="0" width="602" cellpadding="4" cellspacing="0" valign="TOP" style="border-collapse: collapse;">
-		<tbody>
+	<table class="news-content" border="0" width="602" cellpadding="4" cellspacing="0" valign="TOP">
+	<tbody>
 			<tr>
-				<td width="85px" bgcolor="#eeeeee" valign="top">
+				<td width="85px" class="bg-eeeeee" valign="top">
 					<center>
 						<?php echo get_avatar( get_the_author_meta( 'ID' ), 75 ); ?>
 					</center>
 					<center>
 						<img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="5px">
 					</center>
-					<font face="verdana" size="1">
-						<center><b>Rate Entry</b></center>
+					<span class="font-verdana">
+					<center><b>Rate Entry</b></center>
 						<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="8px"></center>
 						<center>
-							<select name="rating" onchange="return submitRating(this);" size="1" style="background: #e2e4f3; font-family: verdana; font-size: 10px">
+							<select name="rating" onchange="return submitRating(this);" size="1" class="rating-select">
                         <option value="">-------</option>
                         <option value="5" data-post-id="<?php echo get_the_ID(); ?>">5 Stars</option>
                         <option value="4" data-post-id="<?php echo get_the_ID(); ?>">4 Stars</option>
@@ -66,12 +66,12 @@ get_header();
 						<b>-</b><a href="<?php echo get_post_type_archive_link('post'); ?>">The Archive</a>
 						<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="8px"></center>
 						<b>-</b><a href="template.php?page=thestaff.php">Team Echo</a>
-					</font>
+						</span>
 				</td>
-				<td valign="top" bgcolor="#EEEEEE">
-					<font face="verdana" size="1">
-						<?php the_content('<p align="justify">' . __('Read the rest of this entry &raquo;', 'kubrick') . '</p>'); ?>
-					</font>
+				<td valign="top" class="bg-EEEEEE">
+					<span class="font-verdana">
+					<?php the_content('<p align="justify">' . __('Read the rest of this entry &raquo;', 'kubrick') . '</p>'); ?>
+					</span>
 				</td>
 			</tr>
 		</tbody>
@@ -85,32 +85,32 @@ get_header();
 <table class="tableone" border="0" width="602" cellpadding="0" cellspacing="0" valign="TOP" style="border-collapse: collapse;">
 	<tbody>
 		<tr>
-			<td width="130px" height="20px" bgcolor="#eeeeee">
-				<font face="verdana" size="1">&nbsp;<b>Name:</b></font>
+			<td width="130px" height="20px" class="bg-eeeeee">
+				<span class="font-verdana">&nbsp;<b>Name:</b></span>
 			</td>
-			<td width="65px" bgcolor="#eeeeee">
-				<font face="verdana" size="1" width="80px"><b>Owner:</b></font>
+			<td width="65px" class="bg-eeeeee">
+				<span class="font-verdana"><b>Owner:</b></span>
 			</td>
-			<td width="70px" bgcolor="#eeeeee">
-				<font face="verdana" size="1"><b>Language:</b></font>
+			<td width="70px" class="bg-eeeeee">
+			<span class="font-verdana"><b>Language:</b></span>
 			</td>
-			<td bgcolor="#eeeeee">
-				<font face="verdana" size="1" width="47px"><b>Type:</b></font>
+			<td class="bg-eeeeee">
+			<span class="font-verdana"><b>Type:</b></span>
 			</td>
-			<td width="50px" bgcolor="#eeeeee">
-				<font face="verdana" size="1"><b>Games:</b></font>
+			<td width="50px" class="bg-eeeeee">
+			<span class="font-verdana"><b>Games:</b></span>
 			</td>
-			<td width="45px" bgcolor="#eeeeee">
-				<font face="verdana" size="1"><b>Apps:</b></font>
+			<td width="45px" class="bg-eeeeee">
+			<span class="font-verdana"><b>Apps:</b></span>
 			</td>
-			<td width="60px" bgcolor="#eeeeee">
-				<font face="verdana" size="1"><b>Features:</b></font>
+			<td width="60px" class="bg-eeeeee">
+			<span class="font-verdana"><b>Features:</b></span>
 			</td>
-			<td width="65px" bgcolor="#eeeeee">
-				<font face="verdana" size="1"><b>Rating:</b></font>
+			<td width="65px" class="bg-eeeeee">
+			<span class="font-verdana"><b>Rating:</b></span>
 			</td>
-			<td width="55px" bgcolor="#eeeeee">
-				<font face="verdana" size="1"><b>Status:</b></font>
+			<td width="55px" class="bg-eeeeee">
+			<span class="font-verdana"><b>Status:</b></span>
 			</td>
 		</tr>
 		<?php
@@ -135,10 +135,10 @@ get_header();
 		?>
 		<tr height="25px">
 			<td>
-				<font face="verdana" size="1">&nbsp;<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></font>
+				<span class="font-verdana">&nbsp;<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></span>
 			</td>
 			<td>
-				<font face="verdana" size="1"><?php echo esc_html(EchoRingSites::get_webmaster(get_the_ID())); ?></font>
+				<span class="font-verdana"><?php echo esc_html(EchoRingSites::get_webmaster(get_the_ID())); ?></span>
 			</td>
 			<td>
 				<?php
@@ -147,7 +147,7 @@ get_header();
 					foreach ($languages as $language):
 						$lang_img = EchoRingSites::get_language_image_url($language->term_id, 'thumbnail');
 						if ($lang_img) {
-							echo '<img src="' . esc_url($lang_img) . '" alt="' . esc_attr($language->name) . '" title="' . esc_attr($language->name) . '" style="vertical-align:middle;max-width:24px;max-height:24px;margin-right:2px;" />';
+						echo '<img src="' . esc_url($lang_img) . '" alt="' . esc_attr($language->name) . '" title="' . esc_attr($language->name) . '" class="term-image" />';
 						} else {
 							echo esc_html($language->name) . ' ';
 						}
@@ -156,42 +156,44 @@ get_header();
 				?>
 			</td>
 			<td>
-				<font face="verdana" size="1">
+				<span class="font-verdana">
 				<?php
 				$types = get_the_terms(get_the_ID(), 'site_type');
 				if ($types && !is_wp_error($types)):
-					foreach ($types as $type):
-						$type_img = EchoRingSites::get_type_image_url($type->term_id, 'thumbnail');
-						if ($type_img) {
-							echo '<img src="' . esc_url($type_img) . '" alt="' . esc_attr($type->name) . '" title="' . esc_attr($type->name) . '" style="vertical-align:middle;margin-right:2px;" />';
-						} else {
-							echo esc_html($type->name) . ' ';
-						}
-					endforeach;
+				foreach ($types as $type):
+				$type_img = EchoRingSites::get_type_image_url($type->term_id, 'thumbnail');
+				if ($type_img) {
+				echo '<img src="' . esc_url($type_img) . '" alt="' . esc_attr($type->name) . '" title="' . esc_attr($type->name) . '" class="term-image-alt" />';
+				} else {
+				echo esc_html($type->name) . ' ';
+				}
+				endforeach;
 				endif;
 				?>
-				</font>
+				</span>
 			</td>
 			<td>
-				<font face="verdana" size="1">&nbsp; <?php echo esc_html(EchoRingSites::get_games(get_the_ID())); ?></font>
+				<span class="font-verdana">&nbsp; <?php echo esc_html(EchoRingSites::get_games(get_the_ID())); ?></span>
 			</td>
 			<td>
-				<font face="verdana" size="1">&nbsp; <?php echo esc_html(EchoRingSites::get_apps(get_the_ID())); ?></font>
+				<span class="font-verdana">&nbsp; <?php echo esc_html(EchoRingSites::get_apps(get_the_ID())); ?></span>
 			</td>
 			<td>
+				<span class="font-verdana">
 				<?php
 				$features = get_the_terms(get_the_ID(), 'site_feature');
 				if ($features && !is_wp_error($features)):
-					foreach ($features as $feature):
-						$feature_img = EchoRingSites::get_feature_image_url($feature->term_id, 'thumbnail');
-						if ($feature_img) {
-							echo '<img src="' . esc_url($feature_img) . '" alt="' . esc_attr($feature->name) . '" title="' . esc_attr($feature->name) . '" style="vertical-align:middle;margin-right:2px;" />';
-						} else {
-							echo esc_html($feature->name) . ' ';
-						}
-					endforeach;
+				foreach ($features as $feature):
+				$feature_img = EchoRingSites::get_feature_image_url($feature->term_id, 'thumbnail');
+				if ($feature_img) {
+				 echo '<img src="' . esc_url($feature_img) . '" alt="' . esc_attr($feature->name) . '" title="' . esc_attr($feature->name) . '" class="term-image-alt" />';
+				} else {
+				 echo esc_html($feature->name) . ' ';
+				 }
+				 endforeach;
 				endif;
 				?>
+				</span>
 			</td>
 			<td>
 				<?php
@@ -199,12 +201,12 @@ get_header();
 				if ($rating && preg_match('/([1-5])/', $rating, $matches)) {
 					$rating_num = $matches[1];
 					if (file_exists(WP_PLUGIN_DIR . '/echoring-sites/images/' . $rating_num . '.png')) {
-						echo '<img src="' . esc_url(EchoRingSites::get_plugin_image_url($rating_num . '.png')) . '" alt="' . esc_attr($rating) . '" title="' . esc_attr($rating) . '" style="vertical-align:middle;" />';
-					} else {
+						echo '<img src="' . esc_url(EchoRingSites::get_plugin_image_url($rating_num . '.png')) . '" alt="' . esc_attr($rating) . '" title="' . esc_attr($rating) . '" class="rating-image" />';
+						} else {
 						echo esc_html($rating);
 					}
 				} else {
-					echo '<font face="verdana" size="1">N/A</font>';
+					echo '<span class="font-verdana">N/A</span>';
 				}
 				?>
 			</td>
@@ -226,26 +228,26 @@ get_header();
 	</tbody>
 </table>
 	
-	<font face="verdana" size="1">
-		<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="12px"></center>
-		<center><a href="<?php echo get_site_url(); ?>/the-listing/"><b>Click Here To View The Entire Listing</b></a></center>
-		<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="12px"></center>
-	</font>
+	<span class="font-verdana">
+	<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="12px"></center>
+	<center><a href="<?php echo get_site_url(); ?>/the-listing/"><b>Click Here To View The Entire Listing</b></a></center>
+	<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="12px"></center>
+	</span>
 		
-	<table border="0" width="602" cellpadding="2" cellspacing="0" style="border-collapse: collapse; border-left-style: solid; border-left-width: 1; border-right-style: solid; border-right-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-width: 0" bordercolor="#111111">
+	<table border="0" width="602" cellpadding="2" cellspacing="0" class="poll-table" bordercolor="#111111">
 		<tbody>
 			<tr>
 				<td height="20px">
-					<font face="verdana" size="1"><b>EchoRing Interactive</b> Weekly poll and monthly site awards!</font>
+				<span class="font-verdana"><b>EchoRing Interactive</b> Weekly poll and monthly site awards!</span>
 				</td>
 			</tr>
 		</tbody>
 	</table>  
 	
-	<table border="1" width="602" cellpadding="4" cellspacing="0" valign="TOP" style="border-collapse: collapse; border-left-style:dashed; border-left-width:0; border-right-style:dashed; border-right-width:0; border-top-width:0; border-bottom-style:dashed; border-bottom-width:0" bordercolor="#111111">
+	<table border="1" width="602" cellpadding="4" cellspacing="0" valign="TOP" class="poll-content" bordercolor="#111111">
 		<tbody>
 			<tr>
-				<td valign="top" bgcolor="#EEEEEE">
+				<td valign="top" class="bg-EEEEEE">
 					<table border="0" cellspacing="0" cellpadding="0" width="585">
 						<tbody>
 							<tr>
@@ -254,45 +256,45 @@ get_header();
 										<tbody>
 											<tr>
 												<td colspan="2">
-													<font face="verdana" size="1"><center><b>December 2003 EchoAwards</b></center><br></font>
+													<span class="font-verdana"><center><b>December 2003 EchoAwards</b></center><br></span>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<font face="verdana" size="1">&nbsp; <b>Fastest Loading:</b> <a href="#" target="_blank">Download Free Games</a></font>
+													<span class="font-verdana">&nbsp; <b>Fastest Loading:</b> <a href="#" target="_blank">Download Free Games</a></span>
 												</td>
 												<td>
-													<font face="verdana" size="1"><b>Votes:</b> 3/3 100%</font>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<font face="verdana" size="1">&nbsp; <b>Best New Member:</b> <a href="#" target="_blank">Syntax Error</a></font>
-												</td>
-												<td>
-													<font face="verdana" size="1"><b>Votes:</b>  3/3 100%</font>
+													<span class="font-verdana"><b>Votes:</b> 3/3 100%</span>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<font face="verdana" size="1">&nbsp; <b>Most Dedicated:</b> <a href="#" target="_blank">Classic Games</a></font>
-												</td>
-												<td>
-													<font face="verdana" size="1"><b>Votes:</b>  3/3 100%</font>
+													<span class="font-verdana">&nbsp; <b>Best New Member:</b> <a href="#" target="_blank">Syntax Error</a></span>
+													</td>
+													<td>
+													<span class="font-verdana"><b>Votes:</b>  3/3 100%</span>
+													</td>
+													</tr>
+													<tr>
+													<td>
+													<span class="font-verdana">&nbsp; <b>Most Dedicated:</b> <a href="#" target="_blank">Classic Games</a></span>
+													</td>
+													<td>
+													<span class="font-verdana"><b>Votes:</b>  3/3 100%</span>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<font face="verdana" size="1">&nbsp; <b>Most Underrated:</b> <a href="#" target="_blank">Force For Good</a></font>
-												</td>
-												<td>
-													<font face="verdana" size="1"><b>Votes:</b>  2/4 50%</font>
+													<span class="font-verdana">&nbsp; <b>Most Underrated:</b> <a href="#" target="_blank">Force For Good</a></span>
+													</td>
+													<td>
+													<span class="font-verdana"><b>Votes:</b>  2/4 50%</span>
 												</td>
 											</tr>
 											<tr>
 												<td colspan="2">
-													<font face="verdana" size="1"><br><p align="JUSTIFY">Winners are decided on by a majority vote of our staff. The awards are issued once every month. The categories will change from month to month. The awards are completely impartial. If you didn't win this time, just do your best and I'm sure you'll walk away with a trophy next month. <b>-The Staff</b></p>
-													</font>
+													<span class="font-verdana"><br><p align="JUSTIFY">Winners are decided on by a majority vote of our staff. The awards are issued once every month. The categories will change from month to month. The awards are completely impartial. If you didn't win this time, just do your best and I'm sure you'll walk away with a trophy next month. <b>-The Staff</b></p>
+													</span>
 												</td>
 											</tr>
 										</tbody>
@@ -305,13 +307,13 @@ get_header();
 											<tbody>
 												<tr>
 													<td width="100%">
-														<table cellspacing="0" cellpadding="1" width="100%" style="border: 1px solid #eeeeee; " bgcolor="#eeeeee">
+														<table cellspacing="0" cellpadding="1" width="100%" class="poll-inner-table">
 															<tbody>
 																<tr>
 																	<td width="100%" valign="middle">
-																		<font color="black" size="1" face="Verdana">
-																			<b>How many computers do you have?<br></b>
-																		</font>
+																		<span class="font-verdana-black">
+																		<b>How many computers do you have?<br></b>
+																		</span>
 																	</td>
 																</tr>
 															</tbody>
@@ -321,14 +323,14 @@ get_header();
 
 												<tr>	
 													<td width="100%">
-														<table cellspacing="0" cellpadding="1" width="100%" style="border: 1px solid #eeeeee; " bgcolor="#eeeeee">
+														<table cellspacing="0" cellpadding="1" width="100%" class="poll-inner-table">
 															<tbody>
 																<tr>
 																	<td width="10" valign="top" align="left">
 																		<input type="radio" name="cid" value="1">
 																	</td>
 																	<td width="100%" valign="middle" align="left">
-																		<font color="black" face="Verdana" size="1">Only One</font>
+																		<span class="font-verdana-black">Only One</span>
 																	</td>
 																</tr>
 			
@@ -337,44 +339,44 @@ get_header();
 																		<input type="radio" name="cid" value="2">
 																	</td>
 																	<td width="100%" valign="middle" align="left">
-																		<font color="black" face="Verdana" size="1">Two</font>
-																	</td>
-																</tr>
-			
-																<tr>
-																	<td width="10" valign="top" align="left">
+																		<span class="font-verdana-black">Two</span>
+																		</td>
+																		</tr>
+																		
+																		<tr>
+																		<td width="10" valign="top" align="left">
 																		<input type="radio" name="cid" value="3">
-																	</td>
-																	<td width="100%" valign="middle" align="left">
-																		<font color="black" face="Verdana" size="1">Three</font>
-																	</td>
-																</tr>
-			
-																<tr>
-																	<td width="10" valign="top" align="left">
+																		</td>
+																		<td width="100%" valign="middle" align="left">
+																		<span class="font-verdana-black">Three</span>
+																		</td>
+																		</tr>
+																		
+																		<tr>
+																		<td width="10" valign="top" align="left">
 																		<input type="radio" name="cid" value="4">
-																	</td>
-																	<td width="100%" valign="middle" align="left">
-																		<font color="black" face="Verdana" size="1">Four or more</font>
-																	</td>
-																</tr>
-																
-																<tr>
-																	<td width="10" valign="top" align="left">
+																		</td>
+																		<td width="100%" valign="middle" align="left">
+																		<span class="font-verdana-black">Four or more</span>
+																		</td>
+																		</tr>
+																		
+																		<tr>
+																		<td width="10" valign="top" align="left">
 																		<input type="radio" name="cid" value="5">
-																	</td>
-																	<td width="100%" valign="middle" align="left">
-																		<font color="black" face="Verdana" size="1">I lost count...</font>
+																		</td>
+																		<td width="100%" valign="middle" align="left">
+																		<span class="font-verdana-black">I lost count...</span>
 																	</td>
 																</tr>
 																<tr>
 																	<td width="100%" colspan="2">
-																		<font color="#000000" size="1" face="Verdana">&nbsp;
-																			<input type="submit" name="s_boom" value="Vote!" style="font-size: 10px">
-																		</font>
-																		<font size="1" face="Verdana">
-																			<a href="#" target="_self">Results</a>
-																		</font>
+																		<span class="font-verdana-black">&nbsp;
+																		<input type="submit" name="s_boom" value="Vote!" class="vote-button">
+																		</span>
+																		<span class="font-verdana">
+																		<a href="#" target="_self">Results</a>
+																		</span>
 																	</td>
 																</tr>
 															</tbody>
@@ -404,20 +406,20 @@ get_header();
 				<td colspan="2">
 					
 					<center>
-						<table border="0" width="602" cellpadding="2" cellspacing="0" style="border-collapse: collapse; border-left-style: solid; border-left-width: 1; border-right-style: solid; border-right-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-width: 0" bordercolor="#111111">
+						<table border="0" width="602" cellpadding="2" cellspacing="0" class="search-table" bordercolor="#111111">
 							<tbody>
 					<tr>
 						<td height="20px">
-							<font face="verdana" size="1"><b>EchoRing Search</b> A simple way to find your favorite titles!</font>
+							<span class="font-verdana"><b>EchoRing Search</b> A simple way to find your favorite titles!</span>
 						</td>
 					</tr>
 				</tbody>
 						</table>  
-						<table border="1" width="602" cellpadding="4" cellspacing="0" valign="TOP" style="border-collapse: collapse; border-left-style:dashed; border-left-width:0; border-right-style:dashed; border-right-width:0; border-top-width:0; border-bottom-style:dashed; border-bottom-width:0" bordercolor="#111111">
+						<table border="1" width="602" cellpadding="4" cellspacing="0" valign="TOP" class="search-content" bordercolor="#111111">
 							<tbody>
 								<tr>
 									<form action="https://web.archive.org/web/20031229020059/http://www.abandongames.com/search.php" method="post"></form>
-									<td bgcolor="#EEEEEE">
+									<td class="bg-EEEEEE">
 										<table border="0" cellpadding="0" cellspacing="0">
 											<tbody>
 												<tr>
@@ -431,7 +433,7 @@ get_header();
 																</tr>
 																<tr>
 																	<td>
-																		<input type="text" name="search" size="37" style="font-family: Verdana; font-size: 8pt; border-style: solid; border-width: 1; padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1; background-color: #E2E4F3">
+																		<input type="text" name="search" size="37" class="search-input">
 																	</td>
 																	<td>
 																		<input type="image" src="<?php echo get_template_directory_uri(); ?>/images/search.gif" alt="Search">
@@ -441,9 +443,9 @@ get_header();
 														</table>
 													</td>
 													<td>
-														<font face="verdana" size="1">
-															<p align="JUSTIFY">Echo and AbandonGames have teamed up to provide you with one of the most comprehensive Abandonware searches on the web. If its Abandonware, you'll find it using this search. EchoRing is not accountable for the contents of the results provided by AbandonGames.com.</p>
-														</font>
+														<span class="font-verdana">
+														<p align="JUSTIFY">Echo and AbandonGames have teamed up to provide you with one of the most comprehensive Abandonware searches on the web. If its Abandonware, you'll find it using this search. EchoRing is not accountable for the contents of the results provided by AbandonGames.com.</p>
+														</span>
 													</td>
 												</tr>
 											</tbody>

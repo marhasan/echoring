@@ -8,8 +8,8 @@ get_header();
 <table border="0" cellpadding="0" cellspacing="0" width="765">
     <tbody>
         <tr>
-		<?php get_sidebar(); ?>
-	    <td background="<?php echo get_template_directory_uri(); ?>/images/echobeta_r3_c3.gif" width="641" height="427" valign="top">
+			<?php get_sidebar(); ?>
+	    	<td background="<?php echo get_template_directory_uri(); ?>/images/echobeta_r3_c3.gif" width="641" height="427" valign="top">
 		<center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.png" height="12px"></center>
 <div align="center">
 <center>
@@ -73,7 +73,7 @@ get_header();
 		?>
 		<tr height="25px">
 			<td>
-				<font face="verdana" size="1">&nbsp;<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></font>
+				<font face="verdana" size="1"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></font>
 			</td>
 			<td>
 				<font face="verdana" size="1">

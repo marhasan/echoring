@@ -17,7 +17,7 @@ get_header();
 	<table border="0" width="602" cellpadding="2" cellspacing="0" style="border-collapse: collapse; border-left-style: solid; border-left-width: 1; border-right-style: solid; border-right-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-width: 0" bordercolor="#111111">
 		<tbody>
 			<tr>
-				<td height="16px">
+				<td height="20px">
 					<font face="verdana" size="1"><b>EchoRing <?php echo esc_html(get_post_meta(get_the_ID(), '_editorial_type', true)); ?></b> <?php the_title(); ?></font>
 				</td>
 			</tr>
