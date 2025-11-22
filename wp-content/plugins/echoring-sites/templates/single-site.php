@@ -19,11 +19,10 @@ get_header();
                             <tbody>
                                 <tr>
                                     <td height="16px">
-                                        <font face="verdana" size="1"><b>EchoRing Website Details</b>
+                                        <b>EchoRing Website Details</b>
                                         <?php if (current_user_can('manage_options')) : ?>
                                         &nbsp;&nbsp;<small><a href="<?php echo admin_url('post.php?post=' . get_the_ID() . '&action=edit'); ?>" style="color: #666;">[Edit Site]</a></small>
                                         <?php endif; ?>
-                                        </font>
                                     </td>
                                 </tr>
                             </tbody>
@@ -121,13 +120,12 @@ get_header();
                                                         ?>
                                                     </td>
                                                     <td width="245px" align="left" valign="middle">
-                                                        <font face="verdana" size="2">
                                                             <a href="<?php echo esc_url(EchoRingSites::get_site_url()); ?>" target="_blank"><?php the_title(); ?></a>
-                                                        </font>
-                                                        <br /><br />
-                                                        <font face="verdana" size="1"><div style="margin-bottom: 8px;"><b>Webmaster:</b> <?php echo esc_html(EchoRingSites::get_webmaster()); ?></div>
+                                                            <div>
+                                                                <b>Webmaster:</b> <?php echo esc_html(EchoRingSites::get_webmaster()); ?>
+                                                            </div>
                                                         <?php if (get_option('echoring_enable_ratings', 1)): ?>
-                                                        <div style="margin-bottom: 8px;"><b>Rating:&nbsp;</b>
+                                                        <div><b>Rating:&nbsp;</b>
                                                         <?php 
                                                         $rating = EchoRingSites::get_rating(); 
                                                         if ($rating): 
@@ -162,7 +160,7 @@ get_header();
                                                         ?></div>
                                                         <?php endif; ?>
                                                         <?php if (get_option('echoring_enable_languages', 1)): ?>
-                                                        <div style="margin-bottom: 8px;"><b>Language:</b> 
+                                                        <div><b>Language:</b> 
                                                         <?php 
                                                         $languages = get_the_terms(get_the_ID(), 'site_language'); 
                                                         if ($languages && !is_wp_error($languages)):
@@ -178,10 +176,10 @@ get_header();
                                                         ?></div>
                                                         <?php endif; ?>
                                                         <?php if (get_option('echoring_enable_games', 1)): ?>
-                                                        <div style="margin-bottom: 8px;"><b>Games:</b> <?php echo esc_html(EchoRingSites::get_games()); ?></div>
+                                                        <div><b>Games:</b> <?php echo esc_html(EchoRingSites::get_games()); ?></div>
                                                         <?php endif; ?>
                                                         <?php if (get_option('echoring_enable_apps', 1)): ?>
-                                                        <div style="margin-bottom: 8px;"><b>Apps:</b> <?php echo esc_html(EchoRingSites::get_apps()); ?></div>
+                                                        <div><b>Apps:</b> <?php echo esc_html(EchoRingSites::get_apps()); ?></div>
                                                         <?php endif; ?>
                                                         <?php if (get_option('echoring_enable_features', 1)): ?>
                                                         <b>Features:</b> 
@@ -200,14 +198,11 @@ get_header();
                                                         ?>
                                                         <br /><br />
                                                         <?php endif; ?>
-                                                        </font>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
-                                                        <font face="verdana" size="1">
                                                             <?php the_content(); ?>
-                                                        </font>
                                                     </td>
                                                 </tr>
                                                 <?php if (get_option('echoring_enable_reviews', 1)): ?>
@@ -217,7 +212,7 @@ get_header();
                                                     if ($the_good && is_array($the_good)): 
                                                     ?>
                                                     <td valign="top">
-                                                        <font face="verdana" size="1">
+
                                                             <center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.gif" height="12px"></center>
                                                             <b>The Good</b> 
                                                             <ul>
@@ -227,7 +222,7 @@ get_header();
                                                                 </li>
                                                                 <?php endforeach; ?>
                                                             </ul>
-                                                        </font>
+
                                                     </td>
                                                     <?php endif; ?>
                                                     <?php 
@@ -235,7 +230,6 @@ get_header();
                                                     if ($the_bad && is_array($the_bad)): 
                                                     ?>
                                                     <td valign="top">
-                                                        <font face="verdana" size="1">
                                                             <center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.gif" height="12px"></center>
                                                             <b>The Bad</b>
                                                             <ul>
@@ -245,7 +239,6 @@ get_header();
                                                                 </li>
                                                                 <?php endforeach; ?>
                                                             </ul>
-                                                        </font>
                                                     </td>
                                                     <?php endif; ?>
                                                 </tr>
@@ -266,7 +259,7 @@ get_header();
                             <tbody>
                                 <tr>
                                     <td height="16px">
-                                        <font face="verdana" size="1"><b>EchoRing Comments</b> <?php the_title(); ?></font>
+                                        <b>EchoRing Comments</b> <?php the_title(); ?>
                                     </td>
                                 </tr>
                             </tbody>
