@@ -103,8 +103,8 @@ get_header();
                                 <tr>
                                     <td valign="top" bgcolor="#EEEEEE">
                                         <div class="flex flex-col gap-2 font-verdana">
-                                            <div class="flex gap-2">
-                                                <div class="flex gap-2">
+                                            <div class="flex gap-3">
+                                                <div class="flex gap-3">
                                                     <?php 
                                                         $screenshots = EchoRingSites::get_screenshots(); 
                                                         if ($screenshots && is_array($screenshots) && get_option('echoring_enable_screenshots', 1)):
