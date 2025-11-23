@@ -18,10 +18,10 @@ get_header();
                         <table border="0" width="602" cellpadding="2" cellspacing="0" style="border-collapse: collapse; border-left-style: solid; border-left-width: 1; border-right-style: solid; border-right-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-width: 0" bordercolor="#111111">
                             <tbody>
                                 <tr>
-                                    <td height="16px">
+                                    <td class="flex gap-2 font-verdana items-center">
                                         <b>EchoRing Website Details</b>
                                         <?php if (current_user_can('manage_options')) : ?>
-                                        &nbsp;&nbsp;<small><a href="<?php echo admin_url('post.php?post=' . get_the_ID() . '&action=edit'); ?>" style="color: #666;">[Edit Site]</a></small>
+                                        <small><a href="<?php echo admin_url('post.php?post=' . get_the_ID() . '&action=edit'); ?>" style="color: #666;">[Edit Site]</a></small>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -102,149 +102,164 @@ get_header();
                             <tbody>
                                 <tr>
                                     <td valign="top" bgcolor="#EEEEEE">
-                                        <table align="center" border="0">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="325px">
-                                                        <?php 
+                                        <div class="flex flex-col gap-2 font-verdana">
+                                            <div class="flex gap-2">
+                                                <div class="flex gap-2">
+                                                    <?php 
                                                         $screenshots = EchoRingSites::get_screenshots(); 
                                                         if ($screenshots && is_array($screenshots) && get_option('echoring_enable_screenshots', 1)):
-                                                            $shown = 0;
-                                                            foreach ($screenshots as $screenshot) {
-                                                                if ($shown >= 2) break;
-                                                                $img_url = $screenshot['url'];
-                                                                echo '<img src="' . esc_url($img_url) . '" height="150px" width="150px" border="1" style="margin-right:4px;" alt="' . esc_attr($screenshot['alt'] ?: 'Screenshot') . '" />';
-                                                                $shown++;
-                                                            }
+                                                        $shown = 0;
+                                                        foreach ($screenshots as $screenshot) {
+                                                        if ($shown >= 2) break;
+                                                        $img_url = $screenshot['url'];
+                                                        echo '<img src="' . esc_url($img_url) . '" height="150px" width="150px" border="1" alt="' . esc_attr($screenshot['alt'] ?: 'Screenshot') . '" />';
+                                                        $shown++;
+                                                        }
                                                         endif;
-                                                        ?>
-                                                    </td>
-                                                    <td width="245px" align="left" valign="middle">
-                                                            <a href="<?php echo esc_url(EchoRingSites::get_site_url()); ?>" target="_blank"><?php the_title(); ?></a>
-                                                            <div>
-                                                                <b>Webmaster:</b> <?php echo esc_html(EchoRingSites::get_webmaster()); ?>
-                                                            </div>
+                                                    ?>
+                                                </div>
+                                                <div class="flex flex-col gap-2">
+                                                    <div class="flex gap-1 items-center text-lg">
+                                                        <a href="<?php echo esc_url(EchoRingSites::get_site_url()); ?>" target="_blank"><?php the_title(); ?></a>
+                                                    </div>
+                                                    <div class="flex flex-col gap-1">
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Webmaster:</b> <?php echo esc_html(EchoRingSites::get_webmaster()); ?>
+                                                        </div>
                                                         <?php if (get_option('echoring_enable_ratings', 1)): ?>
-                                                        <div><b>Rating:&nbsp;</b>
-                                                        <?php 
-                                                        $rating = EchoRingSites::get_rating(); 
-                                                        if ($rating): 
-                                                            $plugin_img_dir = plugins_url('images', dirname(__FILE__));
-                                                            if (preg_match('/([1-5])/', $rating, $matches)) {
-                                                                $rating_num = $matches[1];
-                                                                if (file_exists(WP_PLUGIN_DIR . '/echoring-sites/images/' . $rating_num . '.png')) {
-                                                                    echo '<img src="' . esc_url($plugin_img_dir . '/' . $rating_num . '.png') . '" alt="' . esc_attr($rating) . '" style="vertical-align:middle;" />';
-                                                                } else {
-                                                                    echo esc_html($rating);
-                                                                }
-                                                            } else {
-                                                                echo esc_html($rating);
-                                                            }
-                                                        endif; 
-                                                        ?></div>
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Rating:&nbsp;</b>
+                                                            <?php 
+                                                                $rating = EchoRingSites::get_rating(); 
+                                                                if ($rating): 
+                                                                    $plugin_img_dir = plugins_url('images', dirname(__FILE__));
+                                                                    if (preg_match('/([1-5])/', $rating, $matches)) {
+                                                                        $rating_num = $matches[1];
+                                                                        if (file_exists(WP_PLUGIN_DIR . '/echoring-sites/images/' . $rating_num . '.png')) {
+                                                                            echo '<img src="' . esc_url($plugin_img_dir . '/' . $rating_num . '.png') . '" alt="' . esc_attr($rating) . '" />';
+                                                                        } else {
+                                                                            echo esc_html($rating);
+                                                                        }
+                                                                    } else {
+                                                                        echo esc_html($rating);
+                                                                    }
+                                                                endif; 
+                                                            ?>
+                                                        </div>
                                                         <?php endif; ?>
+                                                    
                                                         <?php if (get_option('echoring_enable_types', 1)): ?>
-                                                        <div style="margin-bottom: 8px;"><b>Type:</b> 
-                                                        <?php 
-                                                        $types = get_the_terms(get_the_ID(), 'site_type'); 
-                                                        if ($types && !is_wp_error($types)):
-                                                            foreach ($types as $type):
-                                                                $type_img = EchoRingSites::get_type_image_url($type->term_id, 'thumbnail');
-                                                                if ($type_img) {
-                                                                    echo '<img src="' . esc_url($type_img) . '" alt="' . esc_attr($type->name) . '" title="' . esc_attr($type->name) . '" style="vertical-align:middle;max-width:32px;max-height:32px;margin-right:4px;" />';
-                                                                } else {
-                                                                    echo esc_html($type->name) . ' ';
-                                                                }
-                                                            endforeach;
-                                                        endif;
-                                                        ?></div>
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Type:</b> 
+                                                            <?php 
+                                                            $types = get_the_terms(get_the_ID(), 'site_type'); 
+                                                            if ($types && !is_wp_error($types)):
+                                                                foreach ($types as $type):
+                                                                    $type_img = EchoRingSites::get_type_image_url($type->term_id, 'thumbnail');
+                                                                    if ($type_img) {
+                                                                        echo '<img src="' . esc_url($type_img) . '" alt="' . esc_attr($type->name) . '" title="' . esc_attr($type->name) . '" style="height:12px;" />';
+                                                                    } else {
+                                                                        echo esc_html($type->name) . ' ';
+                                                                    }
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </div>
                                                         <?php endif; ?>
+                                                    
                                                         <?php if (get_option('echoring_enable_languages', 1)): ?>
-                                                        <div><b>Language:</b> 
-                                                        <?php 
-                                                        $languages = get_the_terms(get_the_ID(), 'site_language'); 
-                                                        if ($languages && !is_wp_error($languages)):
-                                                            foreach ($languages as $language):
-                                                                $lang_img = EchoRingSites::get_language_image_url($language->term_id, 'thumbnail');
-                                                                if ($lang_img) {
-                                                                    echo '<img src="' . esc_url($lang_img) . '" alt="' . esc_attr($language->name) . '" title="' . esc_attr($language->name) . '" style="vertical-align:middle;max-width:32px;max-height:32px;margin-right:4px;" />';
-                                                                } else {
-                                                                    echo esc_html($language->name) . ' ';
-                                                                }
-                                                            endforeach;
-                                                        endif;
-                                                        ?></div>
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Language:</b> 
+                                                            <?php 
+                                                                $languages = get_the_terms(get_the_ID(), 'site_language'); 
+                                                                if ($languages && !is_wp_error($languages)):
+                                                                foreach ($languages as $language):
+                                                                    $lang_img = EchoRingSites::get_language_image_url($language->term_id, 'thumbnail');
+                                                                    if ($lang_img) {
+                                                                        echo '<img src="' . esc_url($lang_img) . '" alt="' . esc_attr($language->name) . '" title="' . esc_attr($language->name) . '" style="height:12px;" />';
+                                                                    } else {
+                                                                        echo esc_html($language->name) . ' ';
+                                                                    }
+                                                                endforeach;
+                                                                endif;
+                                                            ?>
+                                                        </div>
                                                         <?php endif; ?>
+                                                        
                                                         <?php if (get_option('echoring_enable_games', 1)): ?>
-                                                        <div><b>Games:</b> <?php echo esc_html(EchoRingSites::get_games()); ?></div>
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Games:</b> <?php echo esc_html(EchoRingSites::get_games()); ?>
+                                                        </div>
                                                         <?php endif; ?>
+                                                    
                                                         <?php if (get_option('echoring_enable_apps', 1)): ?>
-                                                        <div><b>Apps:</b> <?php echo esc_html(EchoRingSites::get_apps()); ?></div>
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Apps:</b> <?php echo esc_html(EchoRingSites::get_apps()); ?>
+                                                        </div>
                                                         <?php endif; ?>
+                                                    
                                                         <?php if (get_option('echoring_enable_features', 1)): ?>
-                                                        <b>Features:</b> 
-                                                        <?php 
-                                                        $features = get_the_terms(get_the_ID(), 'site_feature'); 
-                                                        if ($features && !is_wp_error($features)):
-                                                            foreach ($features as $feature):
-                                                                $feature_img = EchoRingSites::get_feature_image_url($feature->term_id, 'thumbnail');
-                                                                if ($feature_img) {
-                                                                    echo '<img src="' . esc_url($feature_img) . '" alt="' . esc_attr($feature->name) . '" title="' . esc_attr($feature->name) . '" style="vertical-align:middle;max-width:32px;max-height:32px;margin-right:8px;" />';
-                                                                } else {
-                                                                    echo esc_html($feature->name) . ' ';
-                                                                }
-                                                            endforeach;
-                                                        endif;
-                                                        ?>
-                                                        <br /><br />
+                                                        <div class="flex gap-1 items-center">
+                                                            <b>Features:</b> 
+                                                            <?php 
+                                                            $features = get_the_terms(get_the_ID(), 'site_feature'); 
+                                                            if ($features && !is_wp_error($features)):
+                                                                foreach ($features as $feature):
+                                                                    $feature_img = EchoRingSites::get_feature_image_url($feature->term_id, 'thumbnail');
+                                                                    if ($feature_img) {
+                                                                        echo '<img src="' . esc_url($feature_img) . '" alt="' . esc_attr($feature->name) . '" title="' . esc_attr($feature->name) . '" style="max-width:12px;max-height:12px;" />';
+                                                                    } else {
+                                                                        echo esc_html($feature->name) . ' ';
+                                                                    }
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </div>
                                                         <?php endif; ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                            <?php the_content(); ?>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                                <div>
+                                                    <?php the_content(); ?>
+                                                </div>
                                                 <?php if (get_option('echoring_enable_reviews', 1)): ?>
-                                                <tr>
+                                                <div class="flex gap-3 font-verdana text-sm">
                                                     <?php 
                                                     $the_good = EchoRingSites::get_the_good(); 
                                                     if ($the_good && is_array($the_good)): 
                                                     ?>
-                                                    <td valign="top">
-
-                                                            <center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.gif" height="12px"></center>
+                                                    <div class="flex flex-col">
                                                             <b>The Good</b> 
-                                                            <ul>
+                                                            <ul class="flex flex-col gap-1 justify-center ">
                                                                 <?php foreach ($the_good as $item): ?>
                                                                 <li>
                                                                     <?php echo esc_html($item); ?>
                                                                 </li>
                                                                 <?php endforeach; ?>
                                                             </ul>
-
-                                                    </td>
+                                                    </div>
                                                     <?php endif; ?>
                                                     <?php 
                                                     $the_bad = EchoRingSites::get_the_bad(); 
                                                     if ($the_bad && is_array($the_bad)): 
                                                     ?>
-                                                    <td valign="top">
-                                                            <center><img src="<?php echo get_template_directory_uri(); ?>/images/spacer.gif" height="12px"></center>
+                                                    <div class="flex flex-col">
                                                             <b>The Bad</b>
-                                                            <ul>
+                                                            <ul class="flex flex-col gap-1 justify-center">
                                                                 <?php foreach ($the_bad as $item): ?>
                                                                 <li>
                                                                     <?php echo esc_html($item); ?>
                                                                 </li>
                                                                 <?php endforeach; ?>
                                                             </ul>
-                                                    </td>
+
+                                                    </div>
                                                     <?php endif; ?>
-                                                </tr>
-                                                <?php endif; ?>
-                                            </tbody>
-                                        </table>
+                                                </div>
+                                                                
+                                            <?php endif; ?>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -259,7 +274,7 @@ get_header();
                             <tbody>
                                 <tr>
                                     <td height="16px">
-                                        <b>EchoRing Comments</b> <?php the_title(); ?>
+                                        <font face="verdana" size="1"><b>EchoRing Comments</b> <?php the_title(); ?></font>
                                     </td>
                                 </tr>
                             </tbody>

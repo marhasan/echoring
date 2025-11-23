@@ -37,7 +37,7 @@ if ( ! empty( $_GET['unapproved'] ) && ! empty( $_GET['moderation-hash'] ) ) {
 }
 ?>
 
-<table border="0" align="CENTER" width="575px" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0">
 <tbody>
 <?php if ( have_comments() ) : ?>
     <?php 
